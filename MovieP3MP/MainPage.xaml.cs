@@ -1,25 +1,17 @@
-﻿namespace MovieP3MP
+﻿using MovieP3MP.ViewModels;
+using MovieP3MP.Servicios;
+
+namespace MovieP3MP;
+
+public partial class MainPage : TabbedPage
 {
-    public partial class MainPage : ContentPage
+    public MainPage()
     {
-        int count = 0;
+        InitializeComponent();
 
-        public MainPage()
-        {
-            InitializeComponent();
-        }
+        var rutaBD = Path.Combine(FileSystem.AppDataDirectory, "mateopillajo.db3");
+        var baseDeDatosServicio = new BaseDeDatosServicio(rutaBD);
 
-        private void OnCounterClicked(object sender, EventArgs e)
-        {
-            count++;
-
-            if (count == 1)
-                CounterBtn.Text = $"Clicked {count} time";
-            else
-                CounterBtn.Text = $"Clicked {count} times";
-
-            SemanticScreenReader.Announce(CounterBtn.Text);
-        }
+        BindingContext = new PeliculasViewModel(baseDeDatosServicio);
     }
-
 }
